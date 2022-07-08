@@ -29,7 +29,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers")
-    public ModelAndView showCustomerList(@RequestParam("s")Optional<String> s, Pageable pageable) {
+    public ModelAndView showCustomerList(@RequestParam("s")Optional<String> s, Pageable pageable) throws Exception {
         Page<Customer> customers;
        if (s.isPresent()){
            customers = customerService.findAllByFirstNameContaining(s.get(),pageable);
@@ -58,7 +58,7 @@ public class CustomerController {
     }
 
     @GetMapping("edit-customer/{id}")
-    public ModelAndView editCustomerForm(@PathVariable Long id) {
+    public ModelAndView editCustomerForm(@PathVariable Long id) throws Exception {
         Customer customer = customerService.findById(id);
         ModelAndView modelAndView;
         if(customer != null) {
@@ -83,5 +83,18 @@ public class CustomerController {
     public String deleteCustomer(@PathVariable Long id){
         customerService.remove(id);
         return "redirect:/customers";
+    }
+
+    @GetMapping("{id}")
+    public ModelAndView showInformation(@PathVariable Long id) {
+        try {
+            ModelAndView modelAndView = new ModelAndView("customer/info");
+            Customer customer = null;
+            customer = customerService.findById(id);
+            modelAndView.addObject("customer", customer);
+            return modelAndView;
+        } catch (Exception e) {
+            return new ModelAndView("redirect:/customers");
+        }
     }
 }

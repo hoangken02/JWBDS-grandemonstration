@@ -1,5 +1,6 @@
 package com.kenit.springjparepositorycustomermanagement.intial;
 
+import com.kenit.springjparepositorycustomermanagement.concern.Logger;
 import com.kenit.springjparepositorycustomermanagement.formatter.ProvinceFormatter;
 import com.kenit.springjparepositorycustomermanagement.service.CustomerService;
 import com.kenit.springjparepositorycustomermanagement.service.ProvinceService;
@@ -12,6 +13,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.FormatterRegistry;
@@ -41,6 +43,7 @@ import java.util.Properties;
 @EnableJpaRepositories("com.kenit.springjparepositorycustomermanagement.repository")
 @ComponentScan("com.kenit.springjparepositorycustomermanagement")
 @EnableSpringDataWebSupport
+@EnableAspectJAutoProxy
 public class AppConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
     private ApplicationContext applicationContext;
 
@@ -132,5 +135,8 @@ public class AppConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         registry.addFormatter(new ProvinceFormatter(applicationContext.getBean(ProvinceService.class)));
     }
 
-
+    @Bean
+    public Logger logger(){
+        return new Logger();
+    }
 }

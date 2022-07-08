@@ -7,9 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CustomerService {
-    Page<Customer> findAll(Pageable pageable);
+    Page<Customer> findAll(Pageable pageable) throws Exception;
 
-    Customer findById(Long id);
+    Customer findById(Long id) throws Exception;
 
     void save(Customer customer);
 
